@@ -18,11 +18,7 @@ class ProductPolicy
      */
     public function viewAny(User $user)
     {
-        //
-        if($user->id === 1){
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -46,6 +42,10 @@ class ProductPolicy
     public function create(User $user)
     {
         //
+        // if ($user->id === 1) {
+        //     return true;
+        // }
+        return true;
     }
 
     /**
@@ -57,11 +57,10 @@ class ProductPolicy
      */
     public function update(User $user, Product $product)
     {
-        //
-        // if ($user->id === $product->id) {
-        //     return true;
-        // }
-        return true;
+        if ($user->id === $product->user_id) {
+            return true;
+        }
+        return false;
     }
 
     /**

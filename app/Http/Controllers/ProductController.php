@@ -31,8 +31,11 @@ class ProductController extends Controller
         return $this->doResponse($this->success, 'id: ' . $id, $this->error);
     }
 
+    // Add product
     public function addProduct(Request $request)
     {
+        $user = Auth::user();
+        //dd($user->id);
         try {
             $validator = Validator::make($request->all(), [
                 'product_name' => 'required'
@@ -42,6 +45,7 @@ class ProductController extends Controller
             } else {
                 $product = new Product();
                 $product->product_name = $request->product_name;
+                $product->user_id = $user->id;
                 $result = Product::addProduct($product);
                 if ($result) {
                     $this->success = true;
@@ -60,25 +64,48 @@ class ProductController extends Controller
         return $this->doResponse($this->success, $this->data, $this->error);
     }
 
-    public function updateProduct(Request $request)
+    // update
+    /*
+    public function updateProduct(Request $request, $id)
+    {
+        $pr = Product::where('id', $id)->first();
+        if (Auth::user()->can('update', $pr)) {
+            $product = new Product();
+            $product->id = $id;
+            $product->product_name = $request->product_name;
+            //dd($id);
+            $result = Product::updateProduct($product);
+            if ($result) {
+                $this->success = true;
+                $this->data = $product;
+            } else {
+                $this->success = false;
+            }
+        }
+        return $this->doResponse($this->success, $this->data, $this->error);
+    }*/
+
+    public function updateProduct(Request $request, $id)
     {
         try {
             $validator = Validator::make($request->all(), [
-                'id' => 'required|numeric',
                 'product_name' => 'required'
             ]);
             if ($validator->fails()) {
                 $this->error = $validator->errors()->first();
             } else {
-                $product = new Product();
-                $product->id = $request->id;
-                $product->product_name = $request->product_name;
-                $result = Product::updateProduct($product);
-                if ($result) {
-                    $this->success = true;
-                    $this->data = $product;
-                } else {
-                    $this->success = false;
+                $pr = Product::where('id', $id)->first();
+                if (Auth::user()->can('update', $pr)) {
+                    $product = new Product();
+                    $product->id = $id;
+                    $product->product_name = $request->product_name;
+                    $result = Product::updateProduct($product);
+                    if ($result) {
+                        $this->success = true;
+                        $this->data = $product;
+                    } else {
+                        $this->success = false;
+                    }
                 }
             }
         } catch (QueryException $ex) {

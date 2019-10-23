@@ -21,6 +21,7 @@ class Product extends Model
     {
         $product = new Product();
         $product->product_name = $prd->product_name;
+        $product->user_id = $prd->user_id;
         $result = $product->save();
         if ($result) {
             return true;
