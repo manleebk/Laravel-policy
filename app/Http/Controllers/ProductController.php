@@ -63,28 +63,28 @@ class ProductController extends Controller
         }
         return $this->doResponse($this->success, $this->data, $this->error);
     }
-
-    // update
-    /*
-    public function updateProduct(Request $request, $id)
+    // detail
+    public function detailProduct($id)
     {
-        $pr = Product::where('id', $id)->first();
-        if (Auth::user()->can('update', $pr)) {
-            $product = new Product();
-            $product->id = $id;
-            $product->product_name = $request->product_name;
-            //dd($id);
-            $result = Product::updateProduct($product);
-            if ($result) {
+        try {
+            $pr = Product::where('id', $id)->first();
+            if (Auth::user()->can('update', $pr)) {
+                $this->data = $pr;
                 $this->success = true;
-                $this->data = $product;
-            } else {
-                $this->success = false;
+            }else {
+                $this->error = "Ban khong co quyen sua";
             }
+        } catch (QueryException $ex) {
+            \Log::error("[" . __METHOD__ . "][" . __LINE__ . "]" . "error" . $ex->getMessage());
+            $this->error = config('message.error.database');
+        } catch (Exception $ex) {
+            \Log::error("[" . __METHOD__ . "][" . __LINE__ . "]" . "error" . $ex->getMessage());
+            $this->error = config('message.error.internal');
         }
         return $this->doResponse($this->success, $this->data, $this->error);
-    }*/
+    }
 
+    // update
     public function updateProduct(Request $request, $id)
     {
         try {

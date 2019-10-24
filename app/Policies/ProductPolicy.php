@@ -18,6 +18,10 @@ class ProductPolicy
      */
     public function viewAny(User $user)
     {
+        //
+        // if($user->id === 1){
+        //     return true;
+        // }
         return true;
     }
 
@@ -31,6 +35,10 @@ class ProductPolicy
     public function view(User $user, Product $product)
     {
         //
+        if ($user->id === $product->user_id) {
+            return true;
+        }
+        return false;
     }
 
     /**

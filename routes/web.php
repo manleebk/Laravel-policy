@@ -14,3 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['namespace' => 'Front'], function () {
+    Route::get('/login', [
+        'uses' => 'AuthController@getLogin',
+        'as' => 'front.getLogin'
+    ]);
+    Route::get('/product', [
+        'uses' => 'ProductController@getProduct',
+        'as' => 'front.getProduct'
+    ]);
+
+});

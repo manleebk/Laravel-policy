@@ -38,6 +38,8 @@ class UserController extends Controller
                     $info = $us;
                     $this->success = true;
                     $this->data = $info;
+                } else {
+                    $this->error = 'Sai tai khoan';
                 }
             }
         } catch (QueryException $ex) {
