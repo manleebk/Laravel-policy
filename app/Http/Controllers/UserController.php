@@ -18,6 +18,7 @@ class UserController extends Controller
     private $data = null;
     private $error = null;
 
+    //login
     public function login(Request $request)
     {
         try {
@@ -51,8 +52,20 @@ class UserController extends Controller
         }
         return $this->doResponse($this->success, $this->data, $this->error);
     }
+    // logout
+    public function logout()
+    {
+        $user = User::find(Auth::user()->id);
+        $user->api_token = null;
+        $result = $user->save();
+        //$user = Auth::guard("api")->user();
+        if ($result) {
+            $this->success = true;
+        }
+        return $this->doResponse($this->success, $this->data, $this->error);
+    }
 
-
+    //sign up
     public function signup(Request $request)
     {
         try {

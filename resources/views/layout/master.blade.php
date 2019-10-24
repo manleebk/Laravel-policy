@@ -23,6 +23,9 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link add">Add product</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link logout">Logout</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>

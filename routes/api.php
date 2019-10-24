@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login', 'UserController@login');
     Route::post('/signup', 'UserController@signup');
+    Route::get('/logout', 'UserController@logout')->middleware('auth:api');
 });
 
 Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function () {
@@ -27,5 +28,4 @@ Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function () {
     Route::get('/detail/{id}', 'ProductController@detailProduct');
     Route::post('/update/{id}', 'ProductController@updateProduct');
     //Route::post('/update/{id}', 'ProductController@updateProduct')->middleware('can:update, [App\Product, id]');
-
 });

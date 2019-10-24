@@ -9,7 +9,8 @@ $title = 'Home | product';
 @section('script')
 <script>
     $(document).ready(function() {
-        console.log('token: ' + getCookie('api_token'));
+
+        console.log('tokenn: ' + getCookie('api_token'));
         loadProduct(); /* function from public/js/utils.js */
         /* ========================================================================
          * Click to edit
@@ -112,6 +113,27 @@ $title = 'Home | product';
         $(document).on('click', '.home', function(e) {
             e.preventDefault();
             loadProduct();
+        });
+        /* ========================================================================
+         * Click to logout
+         * ========================================================================
+         */
+        $(document).on('click', '.logout', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/api/user/logout',
+                method: 'get',
+                data: {},
+                headers: {
+                    'Authorization': 'Bearer ' + getCookie('api_token')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        document.cookie = 'api_token=' + null;
+                        window.location = '/login';
+                    }
+                }
+            });
         });
     });
 </script>
